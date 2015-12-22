@@ -1,0 +1,14 @@
+{
+  "name": "pin",
+  "version": "0.0.1",
+  "description": "Pin service",
+  "main": "index.js",
+  "scripts": {
+    "test": "hello world"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.13.3"
+  }
+}
