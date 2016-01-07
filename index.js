@@ -1,30 +1,49 @@
-/* โหลด Express มาใช้งาน */
+
 var app = require('express')();
-var users = require('./user');
+var bodyParser = require('body-parser');
+var mongojs = require('./db');
+var db = mongojs.connect;
  
-/* ใช้ port 7777 หรือจะส่งเข้ามาตอนรัน app ก็ได้ */
+
 var port = process.env.PORT || 8080;
+
+/*   MiddleWare   */
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
  
 /* Routing */
 app.get('/', function (req, res) {
-    res.send('<h1>Hello Nikom</h1>');
-});
-app.get('/index', function (req, res) {
-    res.send('<h1>This is index page</h1>');
+    res.send('<h1>Hello World</h1>');
 });
 
-app.get('/user', function (req, res) {
-    res.json(users.findAll());
-});
 
-app.get('/user/:id', function (req, res) {
+app.get('/find/:id', function (req, res) {
     var id = req.params.id;
-    res.json(users.findById(id));
+	 db.users.findOne({username: id}, function(err, docs) {	
+	 
+		if(docs != null){
+			
+			if(docs.username == id){
+				
+			res.json(true);
+			
+		}
+		}else{
+			 res.json(false);
+		}
+				
+    });
 });
+
  
 app.post('/newuser', function (req, res) {
     var json = req.body;
-    res.send('Add new ' + json.name + ' Completed!');
+   db.users.insert(json, function(err, docs) {
+        res.send('Add new ' + docs.username + ' Completed!');
+    });
+
 });
  
 /* สั่งให้ server ทำการรัน Web Server ด้วย port ที่เรากำหนด */
