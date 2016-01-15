@@ -27,7 +27,7 @@ app.get('/find/:id', function (req, res) {
 			
 			if(docs.username == id){
 				
-			res.json(true);
+			res.json({"username":docs.username});
 			
 		}
 		}else{
