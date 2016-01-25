@@ -27,7 +27,7 @@ app.get('/find/:id', function (req, res) {
 			
 			if(docs.username == id){
 				
-			res.json({"username":docs.username});
+			res.json({"username":docs.username,"location":docs.location});
 			
 		}
 		}else{
@@ -46,6 +46,15 @@ app.post('/newuser', function (req, res) {
 
 });
  
+app.post('/update_location', function (req, res) {
+    var json = req.body;
+	 db.users.update({username: json.username}, {$set: { location: json.location}}, function (err, docs) {
+		res.json(json.location);
+	 });
+	
+
+});
+
 /* สั่งให้ server ทำการรัน Web Server ด้วย port ที่เรากำหนด */
 app.listen(port, function() {
     console.log('Starting node.js on port ' + port);
