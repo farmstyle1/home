@@ -41,7 +41,7 @@ app.get('/find/:id', function (req, res) {
 app.post('/newuser', function (req, res) {
     var json = req.body;
    db.users.insert(json, function(err, docs) {
-        res.send('Add new ' + docs.username + ' Completed!');
+        res.send({"username":docs.username});
     });
 
 });
@@ -49,7 +49,7 @@ app.post('/newuser', function (req, res) {
 app.post('/update_location', function (req, res) {
     var json = req.body;
 	 db.users.update({username: json.username}, {$set: { location: json.location}}, function (err, docs) {
-		res.json(json.location);
+		res.json({"location":json.location});
 	 });
 	
 
