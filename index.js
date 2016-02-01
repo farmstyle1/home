@@ -68,6 +68,53 @@ app.post('/update_location', function (req, res) {
 
 });
 
+app.post('/update_id', function (req, res) {
+    var json = req.body;
+	db.users.findOne({id: json.id}, function(err, docs) {	
+		if(docs != null){
+	
+			res.json(false);	
+			///////////////////////////////////////////////////////////////
+			///////////////////////////////////////////////////////////////
+			///////////////////////////////////////////////////////////////
+			//console.log(docs.id); แสดงผลได้
+			///////////////////////////////////////////////////////////////
+			//res.json(docs.id); error!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 
+			///////////////////////////////////////////////////////////////
+			///////////////////////////////////////////////////////////////
+		}else{
+			
+			db.users.update({username: json.username}, {$set: { id: json.id}}, function (err, docs) {
+				if(docs != null){
+					res.json(true);	
+				}else{
+					res.json(false);	
+				}
+			});
+		}
+				
+    });
+	
+	
+
+});
+
+
+app.post('/addfriend', function (req, res) {
+    var json = req.body;
+	
+   db.friends.insert(json, function(err, docs) {
+        
+		if(docs != null){
+			res.json({"friendid":docs.friendid});
+		}else{
+			res.json(false);
+		}
+		
+    });
+
+});
+
 
 
 /* สั่งให้ server ทำการรัน Web Server ด้วย port ที่เรากำหนด */
