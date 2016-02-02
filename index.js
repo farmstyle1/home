@@ -32,7 +32,7 @@ app.get('/find/:id', function (req, res) {
 			
 		}
 		}else{
-			 res.json(false);
+			 res.json({"status":false});	
 		}
 				
     });
@@ -41,16 +41,21 @@ app.get('/find/:id', function (req, res) {
  
 app.post('/newuser', function (req, res) {
     var json = req.body;
-	
-   db.users.insert(json, function(err, docs) {
-        
+	db.users.findOne({username: json.username}, function(err, docs) {	
 		if(docs != null){
-			res.json({"username":docs.username});
+				res.json({"status":false});	
 		}else{
-			res.json(false);
-		}
+			db.users.insert(json, function(err, docs) {
+        
+				if(docs != null){
+					res.json({"username":docs.username});
+				}else{
+					res.json({"status":false});	
+				}
 		
-    });
+			});
+		}
+	});
 
 });
  
@@ -60,7 +65,7 @@ app.post('/update_location', function (req, res) {
 		 if(docs != null){
 			res.json({"location":json.location});
 		}else{
-			res.json(false);
+			res.json({"status":false});	
 		}
 		
 	 });
@@ -73,7 +78,7 @@ app.post('/update_id', function (req, res) {
 	db.users.findOne({id: json.id}, function(err, docs) {	
 		if(docs != null){
 	
-			res.json(false);	
+			res.json({"status":false});
 			///////////////////////////////////////////////////////////////
 			///////////////////////////////////////////////////////////////
 			///////////////////////////////////////////////////////////////
@@ -86,9 +91,9 @@ app.post('/update_id', function (req, res) {
 			
 			db.users.update({username: json.username}, {$set: { id: json.id}}, function (err, docs) {
 				if(docs != null){
-					res.json(true);	
+					res.json({"status":true});	
 				}else{
-					res.json(false);	
+					res.json({"status":false});	
 				}
 			});
 		}
@@ -108,7 +113,7 @@ app.post('/addfriend', function (req, res) {
 		if(docs != null){
 			res.json({"friendid":docs.friendid});
 		}else{
-			res.json(false);
+			res.json({"status":false});	
 		}
 		
     });
@@ -122,7 +127,7 @@ app.listen(port, function() {
     console.log('Starting node.js on port ' + port);
 });
 http.listen(8081, function(){
-  console.log('listening on *:3000');
+  console.log('Starting chat on 8081');
 });
 
 io.on('connection', function(socket){
