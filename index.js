@@ -1,4 +1,10 @@
 
+			///////////////////////////////////////////////////////////////
+			///////////////////////////////////////////////////////////////
+			///////////////////////////////////////////////////////////////
+			//res.json({"status":false});	 ห้าม return ค่า ซ้ำกัน จะ Error
+			///////////////////////////////////////////////////////////////
+			///////////////////////////////////////////////////////////////
 var app = require('express')();
 var bodyParser = require('body-parser');
 var mongojs = require('./db');
@@ -43,12 +49,14 @@ app.post('/newuser', function (req, res) {
     var json = req.body;
 	db.users.findOne({username: json.username}, function(err, docs) {	
 		if(docs != null){
-				res.json({"status":false});	
+			res.json({"status":false});	
+			
 		}else{
-			db.users.insert(json, function(err, docs) {
-        
+			
+				
+			db.users.insert({username: json.username}, function(err, docs) {
 				if(docs != null){
-					res.json({"username":docs.username});
+					res.json({"status":true});	
 				}else{
 					res.json({"status":false});	
 				}
@@ -63,7 +71,7 @@ app.post('/update_location', function (req, res) {
     var json = req.body;
 	 db.users.update({username: json.username}, {$set: { location: json.location}}, function (err, docs) {
 		 if(docs != null){
-			res.json({"location":json.location});
+			res.json({"status":true});	
 		}else{
 			res.json({"status":false});	
 		}
@@ -101,8 +109,24 @@ app.post('/update_id', function (req, res) {
     });
 	
 	
-
 });
+
+app.post('/update_name', function (req, res) {
+    var json = req.body;
+	
+			db.users.update({username: json.username}, {$set: { name: json.name}}, function (err, docs) {
+				if(docs != null){
+					res.json({"status":true});	
+				}else{
+					res.json({"status":false});	
+				}
+			});
+		
+				
+    });
+	
+	
+
 
 
 app.post('/addfriend', function (req, res) {
