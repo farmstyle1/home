@@ -34,7 +34,7 @@ app.get('/find/:id', function (req, res) {
 		if(docs != null){
 			if(docs.username == id){
 				
-			res.json({"username":docs.username,"location":docs.location});
+			res.json(docs);
 			
 		}
 		}else{
@@ -44,12 +44,28 @@ app.get('/find/:id', function (req, res) {
     });
 });
 
+app.get('/findid/:id', function (req, res) {
+    var id = req.params.id;
+	 db.users.findOne({id: id}, function(err, docs) {	
+	 
+		if(docs != null){
+					
+			res.json(docs);
+		
+		}else{
+			res.json({"status":false});	
+		}
+				
+    });
+});
+
+
  
 app.post('/newuser', function (req, res) {
     var json = req.body;
 	db.users.findOne({username: json.username}, function(err, docs) {	
 		if(docs != null){
-			res.json({"status":false});	
+			res.json({"name":docs.name,"status":false});				
 			
 		}else{
 			
@@ -80,6 +96,8 @@ app.post('/update_location', function (req, res) {
 	
 
 });
+
+
 
 app.post('/update_id', function (req, res) {
     var json = req.body;
@@ -113,7 +131,6 @@ app.post('/update_id', function (req, res) {
 
 app.post('/update_name', function (req, res) {
     var json = req.body;
-	
 			db.users.update({username: json.username}, {$set: { name: json.name}}, function (err, docs) {
 				if(docs != null){
 					res.json({"status":true});	
@@ -131,9 +148,7 @@ app.post('/update_name', function (req, res) {
 
 app.post('/addfriend', function (req, res) {
     var json = req.body;
-	
-   db.friends.insert(json, function(err, docs) {
-        
+	db.friends.insert(json, function(err, docs) {  
 		if(docs != null){
 			res.json({"friendid":docs.friendid});
 		}else{
