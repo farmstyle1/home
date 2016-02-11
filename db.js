@@ -1,7 +1,7 @@
 var mongojs = require('mongojs');
 
 var databaseUrl = 'test';
-var collections = ['users'];
+var collections = ['users','friends'];
 
 var connect = mongojs(databaseUrl, collections);
 

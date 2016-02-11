@@ -143,21 +143,34 @@ app.post('/update_name', function (req, res) {
     });
 	
 	
-
-
-
-app.post('/addfriend', function (req, res) {
+app.post('/newfriend', function (req, res) {
     var json = req.body;
-	db.friends.insert(json, function(err, docs) {  
+	db.friends.findOne({userid:json.userid,friendid:json.friendid}, function(err, docs) {	
 		if(docs != null){
-			res.json({"friendid":docs.friendid});
-		}else{
-			res.json({"status":false});	
-		}
+			
+				
+			res.json(docs);
+			
 		
-    });
+		}else{
+			db.friends.insert(json, function(err, docs) {
+				if(docs != null){
+					res.json({"status":true});	
+				}else{
+					res.json({"status":false});	
+				}
+		
+			});
+		
+		}	
+    });	
+});		
+	
 
-});
+
+
+
+
 
 
 
