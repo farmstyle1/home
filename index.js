@@ -168,7 +168,7 @@ app.post('/new_friend', function (req, res) {
 			res.json({"status":false});	
 		
 		}else{
-			db.friends.insert(json, function(err, docs) {
+			db.friends.insert({userid:json.userid,friendid:json.friendid}, function(err, docs) {
 				if(docs != null){
 					res.json({"status":true});	
 				}else{
