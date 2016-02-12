@@ -142,15 +142,30 @@ app.post('/update_name', function (req, res) {
 				
     });
 	
-	
-app.post('/newfriend', function (req, res) {
+app.post('/find_friend', function (req, res) {
     var json = req.body;
 	db.friends.findOne({userid:json.userid,friendid:json.friendid}, function(err, docs) {	
 		if(docs != null){
 			
 				
-			res.json(docs);
+			res.json({"status":true});
 			
+		
+		}else{
+			
+			res.json({"status":false});
+		
+		}	
+    });	
+});			
+	
+	
+app.post('/new_friend', function (req, res) {
+    var json = req.body;
+	db.friends.findOne({userid:json.userid,friendid:json.friendid}, function(err, docs) {	
+		if(docs != null){
+			
+			res.json({"status":false});	
 		
 		}else{
 			db.friends.insert(json, function(err, docs) {
