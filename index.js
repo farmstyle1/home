@@ -181,6 +181,23 @@ app.post('/new_friend', function (req, res) {
     });	
 });		
 	
+	
+app.post('/list_friend', function (req, res) {
+    var json = req.body;
+	db.friends.find({userid:json.userid}, function(err, docs) {	
+		if(docs != null){
+			
+				
+			res.json(docs);
+			
+		
+		}else{
+			
+			res.json({"status":false});
+		
+		}	
+    });	
+});	
 
 
 
