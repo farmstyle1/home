@@ -32,11 +32,11 @@ app.get('/find/:id', function (req, res) {
 	 db.users.findOne({username: id}, function(err, docs) {	
 	 
 		if(docs != null){
-			if(docs.username == id){
+			
 				
 			res.json(docs);
 			
-		}
+		
 		}else{
 			 res.json({"status":false});	
 		}
@@ -58,6 +58,7 @@ app.get('/findid/:id', function (req, res) {
 				
     });
 });
+
 
 
  
