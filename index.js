@@ -71,7 +71,7 @@ app.post('/newuser', function (req, res) {
 		}else{
 			
 				
-			db.users.insert({username: json.username}, function(err, docs) {
+			db.users.insert({username: json.username,name:json.name}, function(err, docs) {
 				if(docs != null){
 					res.json({"status":true});	
 				}else{
