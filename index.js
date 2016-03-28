@@ -8,6 +8,7 @@
 var app = require('express')();
 var bodyParser = require('body-parser');
 var mongojs = require('./db');
+var express = require('express');
 var db = mongojs.connect;
 
 var http = require('http').Server(app);
@@ -21,9 +22,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: true
 }));
- 
-app.get('/', function(req, res){
-  res.sendFile(__dirname + '/index.html');
+app.use(express.static(__dirname + '/web')); 
+app.get('/', function(req, res){	
+  res.sendFile(__dirname + '/web/index.html'); 
 });
 
 
@@ -52,17 +53,25 @@ app.post('/new_member', function (req, res) {
 				res.json({"status":false});				
 				
 			}else{
-				db.member.insert({id: json.id,name:json.name,bank:json.bank,bankid:json.bankid,topup:json.topup,cash:0,up:json.up}, function(err, docs) {
-					if(docs != null){
-						res.json({"status":true});	
-					}else{
-						res.json({"status":false});	
-					}
-			
-				});
+		
+				
+				
+					db.member.insert({id: json.id,name:json.name,bank:json.bank,bankid:json.bankid,topup:'1',cash:0,up:json.up,phone:json.phone,adviser:json.adviser}, function(err, docs) {
+						if(docs != null){
+							res.json({"status":true});	
+						}else{
+							
+							res.json({"status":false});	
+						}
+				
+					});
+				
+	
 			}
 		});
 });
+
+
 
 app.post('/update_member', function (req, res) {
     var json = req.body;
@@ -91,7 +100,7 @@ app.get('/topup_member/:id', function (req, res) {
 			topup(docs.id, docs.topup, function(response){
 				if(response){
 					pay(docs.up, function(response){
-			
+						
 						pay(response, function(response){
 							
 							pay(response, function(response){

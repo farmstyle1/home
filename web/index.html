@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>ระบบสมาชิก</title>
+	<link rel="stylesheet" href="css/material.css"/>
+	<link rel="stylesheet" href="demo-files/demo.css"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<meta name="description" content="Material Framework is an easy to use Material Design Framework for the web.">
+	<meta charset="utf-8"/>
+</head>
+<body>
+<div class="sidemenu sidebar responsive" id="navigation-sidemenu" hidden>
+	<div class="sidemenu-hero">
+		<img class="sidemenu-hero-image" src="demo-files/sidemenu-hero.jpg">
+		<h1 class="title serif">เมนู</h1>
+	</div>
+	<ul class="menu">
+		<li class="divider"></li>
+		<li ripple><a href="#add_member"><i class="icon-add-circle-outline"></i>เพิ่มสมาชิก</a></li>
+		<li ripple><a href="#info_member"><i class="icon-account-circle"></i>ดูข้อมูลสมาชิก</a></li>
+		<li class="divider"></li>
+	</ul>
+</div>
+<div class="main-content">
+<div class="toolbar header bg-blue-500 color-white">
+	<button class="icon-button" onclick="SideMenu.toggle(document.querySelector('#navigation-sidemenu'))"><i class="icon-menu"></i></button>
+	<label class="toolbar-label">ระบบสมาชิก</label>
+</div>
+<!-- Start content -->
+<div class="navigation-section" id="add_member">
+	
+	<div class="section">
+		<div class="grid-list">
+			<div class="tile">
+				<h3>ชื่อ - สกุล</h3>
+				<div class="text-input-container card">
+					
+					<input type="text" class="text-input" id="name"/>
+				</div>
+			</div>	
+		</div>
+		<div class="grid-list">
+			<div class="tile">	
+				<h3>รหัสสมาชิก  ( ตั้งเอง )</h3>
+				<div class="text-input-container card">
+					<input type="text" class="text-input" id="id"/>
+				</div>
+			</div>
+			<div class="tile">	
+				<h3>เบอร์โทรศัพท์</h3>
+				<div class="text-input-container card">
+					<input type="text" class="text-input" id="phone"/>
+				</div>
+			</div>
+		</div>
+		<div class="grid-list">
+			<div class="tile">	
+				<h3>รหัสผู้แนะนำ</h3>
+				<div class="text-input-container card">
+					<input type="text" class="text-input" id="adviser"/>
+				</div>
+			</div>
+			<div class="tile">	
+				<h3>รหัส Upline</h3>
+				<div class="text-input-container card">
+					<input type="text" class="text-input" id="up"/>
+				</div>
+			</div>
+		</div>
+		<div class="grid-list">
+			<div class="tile">	
+				<h3>เลขที่บัญชีธนาคาร</h3>
+				<div class="text-input-container card">
+					<input type="text" class="text-input" id="bankid"/>
+				</div>
+			</div>
+			<div class="tile">	
+				<h3>ธนาคาร</h3>
+				<div class="text-input-container card">
+					<input type="text" class="text-input" id="bank"/>
+				</div>
+			</div>
+		</div>
+		<button class="button raised bg-blue-500 color-white" id="send">บันทึก</button>
+	</div>
+</div>
+<!-- End content -->
+</div>
+<script src="js/material.js?version=2"></script>
+<script src="demo-files/demo.js"></script>
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js" async></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script>
+	var url = "http://localhost:8080";
+	$(document).ready(function() {
+		
+//		 $.ajax({
+//			url: url+"/find_member/111"
+//		}).then(function(data) {
+//		   alert(data.bank);
+//		});
+	});
+	
+	
+	$( "#send" ).click(function() {
+		 var member = {
+			name: $("#name").val(),
+			id: $("#id").val(),
+            bank:$("#bank").val(),
+			bankid:$("#bankid").val(),
+			phone:$("#phone").val(),
+            up:$("#up").val(),
+			adviser:$("#adviser").val()
+        }
+		if($("#id").val()!="" && $("#name").val()!="" && $("#bank").val()!="" && $("#bankid").val()!="" && $("#phone").val()!="" && $("#up").val()!="" && $("#adviser").val()!=""){
+			$.ajax({
+				url: url+"/find_member/"+$("#id").val()
+			}).then(function(data) {
+			   if(data.id != $("#id").val()){
+					$.ajax({
+						type: "POST",
+						url: url+"/new_member",
+						data: JSON.stringify(member),
+						contentType: "application/json; charset=utf-8",
+						dataType: "json",
+						success: function(data){
+							
+							if(data.status){								
+								$(':input').val('');
+								alert("สมัครสมาชิกเรียบร้อย  รหัสสมาชิก คือ"+data.id);
+								
+							}
+						},
+						failure: function(errMsg) {
+							alert(errMsg);
+						}
+					});
+			   }else{
+				alert("มีสมาชิกในระบบแล้ว")
+			   }
+			});
+			
+		}else{
+			alert('กรอกข้อมูลให้ครบ');
+		}
+		
+		
+	});
+</script>
+</body>
+</html>
