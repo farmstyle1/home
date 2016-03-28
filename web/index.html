@@ -16,7 +16,7 @@
 	</div>
 	<ul class="menu">
 		<li class="divider"></li>
-		<li ripple><a href="#add_member"><i class="icon-add-circle-outline"></i>เพิ่มสมาชิก</a></li>
+		<li ripple><a href="#add_member" id="btn_add_member"><i class="icon-add-circle-outline"></i>เพิ่มสมาชิก</a></li>
 		<li ripple><a href="#info_member"><i class="icon-account-circle"></i>ดูข้อมูลสมาชิก</a></li>
 		<li class="divider"></li>
 	</ul>
@@ -84,6 +84,90 @@
 		<button class="button raised bg-blue-500 color-white" id="send">บันทึก</button>
 	</div>
 </div>
+<div class="navigation-section" id="info_member">
+	
+	<div class="section">
+		<div class="grid-list">
+			<div class="tile">
+				<h3>ค้นหาสมาชิก</h3>
+					<div class="text-input-container card">
+						<i class="icon-search text-input-icon"></i>
+						<input type="text" class="text-input" placeholder="Search" id="id_search"/>
+					</div>
+				
+			</div>	
+		</div>
+		<button class="button raised bg-blue-500 color-white" id="search">ค้นหา</button>
+		<div class="grid-list">
+			<div class="tile">
+				<h3>ชื่อ - สกุล</h3>
+				<div class="text-input-container card">
+					
+					<input type="text" class="text-input" id="name_edit"/>
+				</div>
+			</div>	
+			<div class="tile">
+				<h3>รายได้</h3>
+				<div class="text-input-container card">
+					
+					<input type="text" class="text-input" id="cash_edit"/>
+				</div>
+			</div>	
+		</div>
+		<div class="grid-list">
+			<div class="tile">	
+				<h3>รหัสสมาชิก  </h3>
+				<div class="text-input-container card">
+					<input  type="text" class="text-input" id="id_edit" disabled/>
+				</div>
+			</div>
+			<div class="tile">	
+				<h3>เบอร์โทรศัพท์</h3>
+				<div class="text-input-container card">
+					<input type="text" class="text-input" id="phone_edit"/>
+				</div>
+			</div>
+		</div>
+		<div class="grid-list">
+			<div class="tile">	
+				<h3>รหัสผู้แนะนำ</h3>
+				<div class="text-input-container card">
+					<input type="text" class="text-input" id="adviser_edit"/>
+				</div>
+			</div>
+			<div class="tile">	
+				<h3>รหัส Upline</h3>
+				<div class="text-input-container card">
+					<input type="text" class="text-input" id="up_edit"/>
+				</div>
+			</div>
+		</div>
+		<div class="grid-list">
+			<div class="tile">	
+				<h3>เลขที่บัญชีธนาคาร</h3>
+				<div class="text-input-container card">
+					<input type="text" class="text-input" id="bankid_edit"/>
+				</div>
+			</div>
+			<div class="tile">	
+				<h3>ธนาคาร</h3>
+				<div class="text-input-container card">
+					<input type="text" class="text-input" id="bank_edit"/>
+				</div>
+			</div>
+		</div>
+		<div class="grid-list">
+			<div class="tile">	
+				<button class="button raised bg-blue-500 color-white" id="update">แก้ไข</button>
+			</div>
+			<div class="tile">	
+				<div id="topup_row">
+					<button class='button raised bg-blue-500 color-white' id='topup'>Topup</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 <!-- End content -->
 </div>
 <script src="js/material.js?version=2"></script>
@@ -92,10 +176,10 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script>
 	var url = "http://128.199.205.59:8080";
-//	128.199.205.59
+//	http://128.199.205.59:8080
 // http://localhost:8080
 	$(document).ready(function() {
-		
+		$("#topup_row").hide();	
 //		 $.ajax({
 //			url: url+"/find_member/111"
 //		}).then(function(data) {
@@ -148,6 +232,86 @@
 		
 		
 	});
+	
+	$( "#search" ).click(function() {
+		
+		 $.ajax({
+			url: url+"/find_member/"+$("#id_search").val()
+		}).then(function(data) {		
+		   $("#name_edit").val(data.name);
+		   $("#cash_edit").val(data.cash);
+		   $("#id_edit").val(data.id);
+		   $("#phone_edit").val(data.phone);
+		   $("#adviser_edit").val(data.adviser);
+		   $("#up_edit").val(data.up);
+		   $("#bankid_edit").val(data.bankid);
+		   $("#bank_edit").val(data.bank);
+		   if(data.topup==1){
+				$("#topup_row").show();
+		   }else{
+				$("#topup_row").hide();
+		   }
+		});
+	});
+	
+	$( "#update" ).click(function() {
+		
+		 var member_update = {
+			name: $("#name_edit").val(),
+			cash: $("#cash_edit").val(),
+			id: $("#id_edit").val(),
+            bank:$("#bank_edit").val(),
+			bankid:$("#bankid_edit").val(),
+			phone:$("#phone_edit").val(),
+            up:$("#up_edit").val(),
+			adviser:$("#adviser_edit").val()
+        }
+		if (confirm('ต้องการแก้ไขข้อมูล ?')) {
+			if($("#id_edit").val()!="" && $("#cash_edit").val()!="" && $("#name_edit").val()!="" && $("#bank_edit").val()!="" && $("#bank_edit").val()!="" && $("#phone_edit").val()!="" && $("#up_editup").val()!="" && $("#adviser_edit").val()!=""){
+				$.ajax({
+					url: url+"/find_member/"+$("#id_edit").val()
+				}).then(function(data) {
+				  
+					$.ajax({
+						type: "POST",
+						url: url+"/update_member",
+						data: JSON.stringify(member_update),
+						contentType: "application/json; charset=utf-8",
+						dataType: "json",
+						success: function(data){
+							
+							if(data.status){								
+								$(':input').val('');
+								alert("แก้ไขข้อมูลเรียบร้อย  ");
+								
+							}
+						},
+						failure: function(errMsg) {
+							alert(errMsg);
+						}
+					});
+				  
+				});
+			}else{
+				alert("false");
+			}
+		}
+		
+	});
+	
+	$( "#topup" ).click(function() {
+		if (confirm('ต้องการ TopUp สมาชิก?')) {
+			$.ajax({
+				url: url+"/topup_member/"+$("#id_edit").val()
+			}).then(function(data) {
+				alert("TopUp สมาชิกเรียบร้อย");
+				$("#topup_row").hide();
+			});
+		}
+	});
+	
+	
+
 </script>
 </body>
 </html>

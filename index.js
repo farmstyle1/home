@@ -77,7 +77,7 @@ app.post('/update_member', function (req, res) {
     var json = req.body;
 		db.member.findOne({id: json.id}, function(err, docs) {	
 			if(docs != null){
-				 db.member.update({id: json.id}, {$set: { name:json.name,bank:json.bank,up:json.up}}, function (err, docs) {
+				 db.member.update({id: json.id}, {$set: { name:json.name,bank:json.bank,bankid:json.bankid,cash:json.cash,phone:json.phone,up:json.up,adviser:json.adviser}}, function (err, docs) {
 					 if(docs != null){
 						res.json({"status":true});	
 					}else{
@@ -99,23 +99,28 @@ app.get('/topup_member/:id', function (req, res) {
 						
 			topup(docs.id, docs.topup, function(response){
 				if(response){
-					pay(docs.up, function(response){
-						
+					pay(docs.adviser, function(response){
+						if(response!=false){
 						pay(response, function(response){
-							
+							if(response!=false){
 							pay(response, function(response){
-								
+								if(response!=false){
 								pay(response, function(response){
-									
+									if(response!=false){
 									pay(response, function(response){
-										
+										if(response!=false){
 										pay(response, function(response){
 											
 										})
+										}
 									})
+									}
 								})
+								}
 							})
+							}
 						})
+						}
 					})
 					res.json({"status":true});	
 				}else{
@@ -130,16 +135,16 @@ app.get('/topup_member/:id', function (req, res) {
 		});
 });
 
-function pay(upid,callback) {
-	db.member.findOne({id: upid}, function(err, docs) {
+function pay(adviserid,callback) {
+	db.member.findOne({id: adviserid}, function(err, docs) {
 		if(docs != null){
 			var cash_up=0;
-			cash_up = docs.cash+100;
+			cash_up = parseInt(docs.cash)+parseInt(100);
 			
-			db.member.update({id: upid }, {$set: { cash:cash_up}}, function (err, docs) { 
+			db.member.update({id: adviserid }, {$set: { cash:cash_up}}, function (err, docs) { 
 				
 			});
-			return callback(docs.up);	
+			return callback(docs.adviser);	
 		}else{
 			return callback(false);
 		}
