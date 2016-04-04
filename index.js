@@ -10,6 +10,8 @@ var bodyParser = require('body-parser');
 var mongojs = require('./db');
 var express = require('express');
 var db = mongojs.connect;
+var fs = require('fs');
+
 
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
@@ -50,7 +52,10 @@ app.post('/new_member', function (req, res) {
 		db.member.findOne({id: json.id}, function(err, docs) {	
 			if(docs != null){
 				
-				res.json({"status":false});				
+				res.json({"status":false});	
+				var d = new Date();
+				fs.appendFile('message.txt', d+"--- New Member --- Member found in system. \r\n", function (err) {if (err) throw err;});
+
 				
 			}else{
 		
@@ -58,7 +63,9 @@ app.post('/new_member', function (req, res) {
 				
 					db.member.insert({id: json.id,name:json.name,bank:json.bank,bankid:json.bankid,topup:'1',cash:0,up:json.up,phone:json.phone,adviser:json.adviser}, function(err, docs) {
 						if(docs != null){
-							res.json({"status":true});	
+							res.json({"status":true});
+							var d = new Date();							
+							fs.appendFile('message.txt', d+"--- New Member --- Register "+json.id+". \r\n", function (err) {if (err) throw err;});
 						}else{
 							
 							res.json({"status":false});	
@@ -80,6 +87,8 @@ app.post('/update_member', function (req, res) {
 				 db.member.update({id: json.id}, {$set: { name:json.name,bank:json.bank,bankid:json.bankid,cash:json.cash,phone:json.phone,up:json.up,adviser:json.adviser}}, function (err, docs) {
 					 if(docs != null){
 						res.json({"status":true});	
+						var d = new Date();							
+						fs.appendFile('message.txt', d+"--- Update Member --- Update "+json.id+". \r\n", function (err) {if (err) throw err;});
 					}else{
 						res.json({"status":false});	
 					}
@@ -96,20 +105,26 @@ app.get('/topup_member/:id', function (req, res) {
 	var id = req.params.id;
 		db.member.findOne({id: id}, function(err, docs) {	
 			if(docs != null){				 
-						
+			
 			topup(docs.id, docs.topup, function(response){
 				if(response){
-					pay(docs.adviser, function(response){
+					
+					pay(id,docs.adviser, function(response){
 						if(response!=false){
-						pay(response, function(response){
+						
+						pay(id,response, function(response){
 							if(response!=false){
-							pay(response, function(response){
+							
+							pay(id,response, function(response){
 								if(response!=false){
-								pay(response, function(response){
+									
+								pay(id,response, function(response){
 									if(response!=false){
-									pay(response, function(response){
+									
+									pay(id,response, function(response){
 										if(response!=false){
-										pay(response, function(response){
+												
+										pay(id,response, function(response){
 											
 										})
 										}
@@ -123,6 +138,7 @@ app.get('/topup_member/:id', function (req, res) {
 						}
 					})
 					res.json({"status":true});	
+					
 				}else{
 					res.json({"status":false});	
 				}
@@ -135,14 +151,15 @@ app.get('/topup_member/:id', function (req, res) {
 		});
 });
 
-function pay(adviserid,callback) {
+function pay(meid,adviserid,callback) {
 	db.member.findOne({id: adviserid}, function(err, docs) {
 		if(docs != null){
 			var cash_up=0;
 			cash_up = parseInt(docs.cash)+parseInt(100);
 			
 			db.member.update({id: adviserid }, {$set: { cash:cash_up}}, function (err, docs) { 
-				
+				var d = new Date();							
+				fs.appendFile('message.txt', d+"--- TopUp Member --- Topup "+meid+" to "+adviserid+". \r\n", function (err) {if (err) throw err;});		
 			});
 			return callback(docs.adviser);	
 		}else{
@@ -157,7 +174,8 @@ function topup(memid,topup,callback) {
 				if(topup == "1"){					
 						db.member.update({id:memid}, {$set: { topup:"2"}}, function (err, docs) {
 							if(docs != null){
-								
+								var d = new Date();							
+								fs.appendFile('message.txt', d+"--- TopUp Member --- Topup "+memid+". \r\n", function (err) {if (err) throw err;});			
 								return callback(true);
 							}else{
 								return callback(false);
@@ -200,6 +218,8 @@ app.post('/pay_member', function (req, res) {
 					res.json({"status":false});							
 				}else{
 					db.member.update({id: json.id }, {$set: { cash:cash_member}}, function (err, docs) { 
+						var d = new Date();							
+						fs.appendFile('message.txt', d+"--- Pay Member --- Pay "+json.id+" total "+ json.cash +". \r\n", function (err) {if (err) throw err;});		
 						pay_history(json.id,datetime,json.cash,function(response){
 							if(response){
 								res.json({"cash":cash_member,"status":true});
