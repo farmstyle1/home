@@ -31,6 +31,14 @@
 	
 	<div class="section">
 		<div class="grid-list">
+			<div class="tile">	
+				<h3>รหัสสมาชิก  ( ตั้งเอง )</h3>
+				<div class="text-input-container card">
+					<input type="text" class="text-input" id="id"/>
+				</div>
+			</div>
+		</div>
+		<div class="grid-list">
 			<div class="tile">
 				<h3>ชื่อ - สกุล</h3>
 				<div class="text-input-container card">
@@ -38,14 +46,6 @@
 					<input type="text" class="text-input" id="name"/>
 				</div>
 			</div>	
-		</div>
-		<div class="grid-list">
-			<div class="tile">	
-				<h3>รหัสสมาชิก  ( ตั้งเอง )</h3>
-				<div class="text-input-container card">
-					<input type="text" class="text-input" id="id"/>
-				</div>
-			</div>
 			<div class="tile">	
 				<h3>เบอร์โทรศัพท์</h3>
 				<div class="text-input-container card">
@@ -199,7 +199,8 @@
 			adviser:$("#adviser").val()
         }
 		if($("#id").val()!="" && $("#name").val()!="" && $("#bank").val()!="" && $("#bankid").val()!="" && $("#phone").val()!="" && $("#up").val()!="" && $("#adviser").val()!=""){
-			$.ajax({
+			if($("#id").val()!= $("#adviser").val() && $("#id").val()!= $("#up").val()){
+				$.ajax({
 				url: url+"/find_member/"+$("#id").val()
 			}).then(function(data) {
 			   if(data.id != $("#id").val()){
@@ -225,6 +226,13 @@
 				alert("มีสมาชิกในระบบแล้ว")
 			   }
 			});
+			
+			
+			}else{
+				alert("ห้ามแนะนำตัวเอง");
+			
+			}
+			
 			
 		}else{
 			alert('กรอกข้อมูลให้ครบ');
@@ -305,6 +313,7 @@
 				url: url+"/topup_member/"+$("#id_edit").val()
 			}).then(function(data) {
 				alert("TopUp สมาชิกเรียบร้อย");
+				$(':input').val('');
 				$("#topup_row").hide();
 			});
 		}
