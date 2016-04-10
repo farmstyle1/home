@@ -17,7 +17,7 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
  
 
-var port = process.env.PORT || 8080;
+var port = process.env.PORT || 8081;
 
 /*   MiddleWare   */
 app.use(bodyParser.json());
@@ -176,6 +176,94 @@ function topup(memid,topup,callback) {
 							if(docs != null){
 								var d = new Date();							
 								fs.appendFile('message.txt', d+"--- TopUp Member --- Topup "+memid+". \r\n", function (err) {if (err) throw err;});			
+								return callback(true);
+							}else{
+								return callback(false);
+							}						
+						});
+				}else{
+					
+					return callback(false);
+				}
+				 			
+		
+}
+
+app.get('/untopup_member/:id', function (req, res) {
+	var id = req.params.id;
+		db.member.findOne({id: id}, function(err, docs) {	
+			if(docs != null){				 
+			
+			untopup(docs.id, docs.topup, function(response){
+				if(response){
+					
+					unpay(id,docs.adviser, function(response){
+						if(response!=false){
+						
+						unpay(id,response, function(response){
+							if(response!=false){
+							
+							unpay(id,response, function(response){
+								if(response!=false){
+									
+								unpay(id,response, function(response){
+									if(response!=false){
+									
+									unpay(id,response, function(response){
+										if(response!=false){
+												
+										unpay(id,response, function(response){
+											
+										})
+										}
+									})
+									}
+								})
+								}
+							})
+							}
+						})
+						}
+					})
+					res.json({"status":true});	
+					
+				}else{
+					res.json({"status":false});	
+				}
+			})
+				
+			
+			}else{
+				res.json({"status":false});		
+			}
+		});
+});
+
+function unpay(meid,adviserid,callback) {
+	db.member.findOne({id: adviserid}, function(err, docs) {
+		if(docs != null){
+			var cash_up=0;
+			cash_up = parseInt(docs.cash)-parseInt(100);
+			
+			db.member.update({id: adviserid }, {$set: { cash:cash_up}}, function (err, docs) { 
+				var d = new Date();							
+				fs.appendFile('message.txt', d+"--- UnTopUp Member --- UnTopup "+meid+" to "+adviserid+". \r\n", function (err) {if (err) throw err;});		
+			});
+			return callback(docs.adviser);	
+		}else{
+			return callback(false);
+		}
+	});
+	 
+}
+ 
+function untopup(memid,topup,callback) {
+		
+				if(topup == "2"){					
+						db.member.update({id:memid}, {$set: { topup:"1"}}, function (err, docs) {
+							if(docs != null){
+								var d = new Date();							
+								fs.appendFile('message.txt', d+"--- UnTopUp Member --- UnTopup "+memid+". \r\n", function (err) {if (err) throw err;});			
 								return callback(true);
 							}else{
 								return callback(false);

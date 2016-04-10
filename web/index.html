@@ -165,6 +165,11 @@
 					<button class='button raised bg-blue-500 color-white' id='topup'>Topup</button>
 				</div>
 			</div>
+			<div class="tile">	
+				<div id="untopup_row">
+					<button class='button raised bg-red-500 color-white' id='untopup'>UnTopup</button>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
@@ -177,9 +182,10 @@
 <script>
 	var url = "http://128.199.205.59:8080";
 //	http://128.199.205.59:8080
-// http://localhost:8080
+// http://localhost:8081
 	$(document).ready(function() {
 		$("#topup_row").hide();	
+		$("#untopup_row").hide();	
 //		 $.ajax({
 //			url: url+"/find_member/111"
 //		}).then(function(data) {
@@ -205,22 +211,33 @@
 			}).then(function(data) {
 			   if(data.id != $("#id").val()){
 					$.ajax({
-						type: "POST",
-						url: url+"/new_member",
-						data: JSON.stringify(member),
-						contentType: "application/json; charset=utf-8",
-						dataType: "json",
-						success: function(data){
+					url: url+"/find_member/"+$("#adviser").val()
+					}).then(function(adviser) {
+						if(adviser.status!=false){
+							$.ajax({
+								type: "POST",
+								url: url+"/new_member",
+								data: JSON.stringify(member),
+								contentType: "application/json; charset=utf-8",
+								dataType: "json",
+								success: function(data){
+									
+									if(data.status){								
+										$(':input').val('');
+										alert("สมัครสมาชิกเรียบร้อย  ");
+										
+									}
+								},
+								failure: function(errMsg) {
+									alert(errMsg);
+								}
+							});
+						
+						}else{
+							alert("ไม่มีข้อมูลผู้แนะนำคนนี้");
 							
-							if(data.status){								
-								$(':input').val('');
-								alert("สมัครสมาชิกเรียบร้อย  ");
-								
-							}
-						},
-						failure: function(errMsg) {
-							alert(errMsg);
 						}
+						
 					});
 			   }else{
 				alert("มีสมาชิกในระบบแล้ว")
@@ -245,20 +262,35 @@
 		
 		 $.ajax({
 			url: url+"/find_member/"+$("#id_search").val()
-		}).then(function(data) {		
-		   $("#name_edit").val(data.name);
-		   $("#cash_edit").val(data.cash);
-		   $("#id_edit").val(data.id);
-		   $("#phone_edit").val(data.phone);
-		   $("#adviser_edit").val(data.adviser);
-		   $("#up_edit").val(data.up);
-		   $("#bankid_edit").val(data.bankid);
-		   $("#bank_edit").val(data.bank);
-		   if(data.topup==1){
-				$("#topup_row").show();
-		   }else{
+		}).success(function(data)  {
+
+			if(data.status!=false){
+				
+				$("#name_edit").val(data.name);
+				$("#cash_edit").val(data.cash);
+				$("#id_edit").val(data.id);
+				$("#phone_edit").val(data.phone);
+				$("#adviser_edit").val(data.adviser);
+				$("#up_edit").val(data.up);
+				$("#bankid_edit").val(data.bankid);
+				$("#bank_edit").val(data.bank);
+				if(data.topup==1){
+					$("#topup_row").show();
+					$("#untopup_row").hide();
+				}else if(data.topup==2){
+					$("#untopup_row").show();
+					$("#topup_row").hide();
+				}else{
+					$("#topup_row").hide();
+					$("#untopup_row").hide();
+				}
+			}else{
+				alert("ไม่พบรหัสสมาชิก");
+				$(':input').val('');
 				$("#topup_row").hide();
-		   }
+				$("#untopup_row").hide();
+			}
+		   
 		});
 	});
 	
@@ -291,6 +323,8 @@
 							if(data.status){								
 								$(':input').val('');
 								alert("แก้ไขข้อมูลเรียบร้อย  ");
+								$("#topup_row").hide();
+								$("#untopup_row").hide();
 								
 							}
 						},
@@ -315,6 +349,18 @@
 				alert("TopUp สมาชิกเรียบร้อย");
 				$(':input').val('');
 				$("#topup_row").hide();
+			});
+		}
+	});
+	
+	$( "#untopup" ).click(function() {
+		if (confirm('ต้องการ UnTopUp สมาชิก?')) {
+			$.ajax({
+				url: url+"/untopup_member/"+$("#id_edit").val()
+			}).then(function(data) {
+				alert("UnTopUp สมาชิกเรียบร้อย");
+				$(':input').val('');
+				$("#untopup_row").hide();
 			});
 		}
 	});
