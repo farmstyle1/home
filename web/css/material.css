@@ -1332,13 +1332,13 @@ code {
 }
 .card-hero {
 	background-position: center;
-	color: rgba(255, 255, 255, 0.87);
+	color: #000;
 	position: relative;
 }
 .card-hero h1 {
 	font-family: "Roboto Slab", Cambria, serif;
 	font-size: 1.5em;
-	position: absolute;
+	/* position: absolute; */
 	bottom: 0.5rem;
 	left: 0.5rem;
 }

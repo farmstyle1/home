@@ -17,7 +17,7 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
  
 
-var port = process.env.PORT || 8080;
+var port = process.env.PORT || 8081;
 
 /*   MiddleWare   */
 app.use(bodyParser.json());
@@ -357,6 +357,20 @@ app.post('/find_allmember', function (req, res) {
 	db.member.find().sort({cash: -1}, function(err, docs) {	
 		if(docs != null){				
 			res.json(docs);		
+		}else{
+			res.json({"status":false});	
+		}
+				
+    });
+	
+});
+
+app.get('/find_chart/:id', function (req, res) {
+    var id = req.params.id;
+	db.member.find({up: id}, function(err, docs) {	
+		if(docs != null){				
+			res.json(docs);	
+			
 		}else{
 			res.json({"status":false});	
 		}

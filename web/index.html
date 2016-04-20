@@ -18,6 +18,7 @@
 		<li class="divider"></li>
 		<li ripple><a href="#add_member" id="btn_add_member"><i class="icon-add-circle-outline"></i>เพิ่มสมาชิก</a></li>
 		<li ripple><a href="#info_member"><i class="icon-account-circle"></i>ดูข้อมูลสมาชิก</a></li>
+		<li ripple><a href="#chart_member"><i class="icon-account-circle"></i>ผังงาน</a></li>
 		<li class="divider"></li>
 	</ul>
 </div>
@@ -171,6 +172,24 @@
 				</div>
 			</div>
 		</div>
+	</div>
+</div>
+
+<div class="navigation-section" id="chart_member">
+	
+	<div class="section">
+		<div class="grid-list">
+			<div class="tile">
+				<h3>ค้นหาสมาชิก</h3>
+					<div class="text-input-container card">
+						<i class="icon-search text-input-icon"></i>
+						<input type="text" class="text-input" placeholder="Search" id="id_search_chart"/>
+					</div>
+				
+			</div>	
+		</div>
+		<button class="button raised bg-blue-500 color-white" id="search_chart">ค้นหา</button>
+		
 	</div>
 </div>
 <!-- End content -->
@@ -365,6 +384,12 @@
 		}
 	});
 	
+	
+	$("#search_chart").click(function(){
+		event.preventDefault();
+		var idchart = $("#id_search_chart").val();
+		window.open("/chart.html?idchart="+idchart, "popupWindow", "width=1200,height=600,scrollbars=yes");
+	});
 	
 
 </script>
