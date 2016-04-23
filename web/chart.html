@@ -16,7 +16,7 @@
 <div class="main-content">
 
 <!-- Start content -->
-<div class="navigation-section" id="introduction">
+
 	
 	<div class="section center" >
 		<div class="card rich-card">
@@ -36,12 +36,12 @@
 			
 	</div>
 	
-</div>
+
 
 <!-- End content -->
 </div>
 <script src="js/material.js?version=2"></script>
-<script src="demo-files/demo.js"></script>
+
 <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js" async></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script>
@@ -50,20 +50,23 @@
 // http://localhost:8081
 	$(document).ready(function() {
 		var idchart = getParameterByName('idchart');
+		
 		getUpMember(idchart);
 		getDownMember(idchart);
-		
+	
 	});
 		
 	function getUpMember(id) {
 		$.ajax({
 			url: url+"/find_member/"+id
 		}).success(function(data)  {
+			
 			$("#upid").html(data.id);
 			$("#upname").html(data.name);	   
 		});
 	}
 	function getDownMember(id) {
+		
 		$.ajax({
 			url: url+"/find_chart/"+id
 		}).success(function(data)  {

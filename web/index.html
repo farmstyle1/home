@@ -4,8 +4,6 @@
 	<title>ระบบสมาชิก</title>
 	<link rel="stylesheet" href="css/material.css"/>
 	<link rel="stylesheet" href="demo-files/demo.css"/>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-	<meta name="description" content="Material Framework is an easy to use Material Design Framework for the web.">
 	<meta charset="utf-8"/>
 </head>
 <body>
@@ -16,7 +14,7 @@
 	</div>
 	<ul class="menu">
 		<li class="divider"></li>
-		<li ripple><a href="#add_member" id="btn_add_member"><i class="icon-add-circle-outline"></i>เพิ่มสมาชิก</a></li>
+		
 		<li ripple><a href="#info_member"><i class="icon-account-circle"></i>ดูข้อมูลสมาชิก</a></li>
 		<li ripple><a href="#chart_member"><i class="icon-account-circle"></i>ผังงาน</a></li>
 		<li class="divider"></li>
@@ -28,63 +26,7 @@
 	<label class="toolbar-label">ระบบสมาชิก</label>
 </div>
 <!-- Start content -->
-<div class="navigation-section" id="add_member">
-	
-	<div class="section">
-		<div class="grid-list">
-			<div class="tile">	
-				<h3>รหัสสมาชิก  ( ตั้งเอง )</h3>
-				<div class="text-input-container card">
-					<input type="text" class="text-input" id="id"/>
-				</div>
-			</div>
-		</div>
-		<div class="grid-list">
-			<div class="tile">
-				<h3>ชื่อ - สกุล</h3>
-				<div class="text-input-container card">
-					
-					<input type="text" class="text-input" id="name"/>
-				</div>
-			</div>	
-			<div class="tile">	
-				<h3>เบอร์โทรศัพท์</h3>
-				<div class="text-input-container card">
-					<input type="text" class="text-input" id="phone"/>
-				</div>
-			</div>
-		</div>
-		<div class="grid-list">
-			<div class="tile">	
-				<h3>รหัสผู้แนะนำ</h3>
-				<div class="text-input-container card">
-					<input type="text" class="text-input" id="adviser"/>
-				</div>
-			</div>
-			<div class="tile">	
-				<h3>รหัส Upline</h3>
-				<div class="text-input-container card">
-					<input type="text" class="text-input" id="up"/>
-				</div>
-			</div>
-		</div>
-		<div class="grid-list">
-			<div class="tile">	
-				<h3>เลขที่บัญชีธนาคาร</h3>
-				<div class="text-input-container card">
-					<input type="text" class="text-input" id="bankid"/>
-				</div>
-			</div>
-			<div class="tile">	
-				<h3>ธนาคาร</h3>
-				<div class="text-input-container card">
-					<input type="text" class="text-input" id="bank"/>
-				</div>
-			</div>
-		</div>
-		<button class="button raised bg-blue-500 color-white" id="send">บันทึก</button>
-	</div>
-</div>
+
 <div class="navigation-section" id="info_member">
 	
 	<div class="section">
@@ -97,24 +39,9 @@
 					</div>
 				
 			</div>	
+			
 		</div>
 		<button class="button raised bg-blue-500 color-white" id="search">ค้นหา</button>
-		<div class="grid-list">
-			<div class="tile">
-				<h3>ชื่อ - สกุล</h3>
-				<div class="text-input-container card">
-					
-					<input type="text" class="text-input" id="name_edit"/>
-				</div>
-			</div>	
-			<div class="tile">
-				<h3>รายได้</h3>
-				<div class="text-input-container card">
-					
-					<input type="text" class="text-input" id="cash_edit"/>
-				</div>
-			</div>	
-		</div>
 		<div class="grid-list">
 			<div class="tile">	
 				<h3>รหัสสมาชิก  </h3>
@@ -122,10 +49,26 @@
 					<input  type="text" class="text-input" id="id_edit" disabled/>
 				</div>
 			</div>
+			<div class="tile">
+				<h3>ชื่อ - สกุล</h3>
+				<div class="text-input-container card">
+					
+					<input type="text" class="text-input" id="name_edit" disabled/>
+				</div>
+			</div>	
+		</div>
+		<div class="grid-list">
+			<div class="tile">
+				<h3>รายได้</h3>
+				<div class="text-input-container card">
+					
+					<input type="text" class="text-input" id="cash_edit" disabled/>
+				</div>
+			</div>	
 			<div class="tile">	
 				<h3>เบอร์โทรศัพท์</h3>
 				<div class="text-input-container card">
-					<input type="text" class="text-input" id="phone_edit"/>
+					<input type="text" class="text-input" id="phone_edit" disabled/>
 				</div>
 			</div>
 		</div>
@@ -133,13 +76,13 @@
 			<div class="tile">	
 				<h3>รหัสผู้แนะนำ</h3>
 				<div class="text-input-container card">
-					<input type="text" class="text-input" id="adviser_edit"/>
+					<input type="text" class="text-input" id="adviser_edit" disabled/>
 				</div>
 			</div>
 			<div class="tile">	
 				<h3>รหัส Upline</h3>
 				<div class="text-input-container card">
-					<input type="text" class="text-input" id="up_edit"/>
+					<input type="text" class="text-input" id="up_edit" disabled/>
 				</div>
 			</div>
 		</div>
@@ -147,34 +90,19 @@
 			<div class="tile">	
 				<h3>เลขที่บัญชีธนาคาร</h3>
 				<div class="text-input-container card">
-					<input type="text" class="text-input" id="bankid_edit"/>
+					<input type="text" class="text-input" id="bankid_edit" disabled/>
 				</div>
 			</div>
 			<div class="tile">	
 				<h3>ธนาคาร</h3>
 				<div class="text-input-container card">
-					<input type="text" class="text-input" id="bank_edit"/>
+					<input type="text" class="text-input" id="bank_edit"disabled/>
 				</div>
 			</div>
 		</div>
-		<div class="grid-list">
-			<div class="tile">	
-				<button class="button raised bg-blue-500 color-white" id="update">แก้ไข</button>
-			</div>
-			<div class="tile">	
-				<div id="topup_row">
-					<button class='button raised bg-blue-500 color-white' id='topup'>Topup</button>
-				</div>
-			</div>
-			<div class="tile">	
-				<div id="untopup_row">
-					<button class='button raised bg-red-500 color-white' id='untopup'>UnTopup</button>
-				</div>
-			</div>
-		</div>
+		
 	</div>
 </div>
-
 <div class="navigation-section" id="chart_member">
 	
 	<div class="section">
@@ -194,8 +122,9 @@
 </div>
 <!-- End content -->
 </div>
-<script src="js/material.js?version=2"></script>
+<script src="js/material.js"></script>
 <script src="demo-files/demo.js"></script>
+
 <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js" async></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script>
@@ -210,71 +139,6 @@
 //		}).then(function(data) {
 //		   alert(data.bank);
 //		});
-	});
-	
-	
-	$( "#send" ).click(function() {
-		 var member = {
-			name: $("#name").val(),
-			id: $("#id").val(),
-            bank:$("#bank").val(),
-			bankid:$("#bankid").val(),
-			phone:$("#phone").val(),
-            up:$("#up").val(),
-			adviser:$("#adviser").val()
-        }
-		if($("#id").val()!="" && $("#name").val()!="" && $("#bank").val()!="" && $("#bankid").val()!="" && $("#phone").val()!="" && $("#up").val()!="" && $("#adviser").val()!=""){
-			if($("#id").val()!= $("#adviser").val() && $("#id").val()!= $("#up").val()){
-				$.ajax({
-				url: url+"/find_member/"+$("#id").val()
-			}).then(function(data) {
-			   if(data.id != $("#id").val()){
-					$.ajax({
-					url: url+"/find_member/"+$("#adviser").val()
-					}).then(function(adviser) {
-						if(adviser.status!=false){
-							$.ajax({
-								type: "POST",
-								url: url+"/new_member",
-								data: JSON.stringify(member),
-								contentType: "application/json; charset=utf-8",
-								dataType: "json",
-								success: function(data){
-									
-									if(data.status){								
-										$(':input').val('');
-										alert("สมัครสมาชิกเรียบร้อย  ");
-										
-									}
-								},
-								failure: function(errMsg) {
-									alert(errMsg);
-								}
-							});
-						
-						}else{
-							alert("ไม่มีข้อมูลผู้แนะนำคนนี้");
-							
-						}
-						
-					});
-			   }else{
-				alert("มีสมาชิกในระบบแล้ว")
-			   }
-			});
-			
-			
-			}else{
-				alert("ห้ามแนะนำตัวเอง");
-			
-			}
-			
-			
-		}else{
-			alert('กรอกข้อมูลให้ครบ');
-		}
-		
-		
 	});
 	
 	$( "#search" ).click(function() {
@@ -313,76 +177,6 @@
 		});
 	});
 	
-	$( "#update" ).click(function() {
-		
-		 var member_update = {
-			name: $("#name_edit").val(),
-			cash: $("#cash_edit").val(),
-			id: $("#id_edit").val(),
-            bank:$("#bank_edit").val(),
-			bankid:$("#bankid_edit").val(),
-			phone:$("#phone_edit").val(),
-            up:$("#up_edit").val(),
-			adviser:$("#adviser_edit").val()
-        }
-		if (confirm('ต้องการแก้ไขข้อมูล ?')) {
-			if($("#id_edit").val()!="" && $("#cash_edit").val()!="" && $("#name_edit").val()!="" && $("#bank_edit").val()!="" && $("#bank_edit").val()!="" && $("#phone_edit").val()!="" && $("#up_editup").val()!="" && $("#adviser_edit").val()!=""){
-				$.ajax({
-					url: url+"/find_member/"+$("#id_edit").val()
-				}).then(function(data) {
-				  
-					$.ajax({
-						type: "POST",
-						url: url+"/update_member",
-						data: JSON.stringify(member_update),
-						contentType: "application/json; charset=utf-8",
-						dataType: "json",
-						success: function(data){
-							
-							if(data.status){								
-								$(':input').val('');
-								alert("แก้ไขข้อมูลเรียบร้อย  ");
-								$("#topup_row").hide();
-								$("#untopup_row").hide();
-								
-							}
-						},
-						failure: function(errMsg) {
-							alert(errMsg);
-						}
-					});
-				  
-				});
-			}else{
-				alert("false");
-			}
-		}
-		
-	});
-	
-	$( "#topup" ).click(function() {
-		if (confirm('ต้องการ TopUp สมาชิก?')) {
-			$.ajax({
-				url: url+"/topup_member/"+$("#id_edit").val()
-			}).then(function(data) {
-				alert("TopUp สมาชิกเรียบร้อย");
-				$(':input').val('');
-				$("#topup_row").hide();
-			});
-		}
-	});
-	
-	$( "#untopup" ).click(function() {
-		if (confirm('ต้องการ UnTopUp สมาชิก?')) {
-			$.ajax({
-				url: url+"/untopup_member/"+$("#id_edit").val()
-			}).then(function(data) {
-				alert("UnTopUp สมาชิกเรียบร้อย");
-				$(':input').val('');
-				$("#untopup_row").hide();
-			});
-		}
-	});
 	
 	
 	$("#search_chart").click(function(){

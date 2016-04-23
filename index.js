@@ -24,9 +24,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: true
 }));
-app.use(express.static(__dirname + '/web')); 
-app.get('/', function(req, res){	
-  res.sendFile(__dirname + '/web/index.html'); 
+
+app.use(express.static(__dirname + '/web'));
+app.get('/', function(req, res){
+	res.send('Admin Homepage');
+   //res.sendFile(__dirname + '/web/index.html'); 
 });
 
 

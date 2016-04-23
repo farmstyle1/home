@@ -29,7 +29,7 @@ function DialogDemoCallback(button) {
 window.addEventListener("DOMContentLoaded", function() {
 	var md = new Material();
 	if ((window.location.hash === "") || (document.querySelector(".navigation-section" + window.location.hash) === null)) {
-		window.location.hash = "#introduction";
+		window.location.hash = "#info_member";
 	}
 	document.querySelector("#navigation-sidemenu a[href='" + window.location.hash + "']").parentNode.className = "selected color-blue-500";
 	init();

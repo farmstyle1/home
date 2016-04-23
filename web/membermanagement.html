@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>ระบบสมาชิก</title>
+	<title>ระบบสมาชิก[admin]</title>
 	<link rel="stylesheet" href="css/material.css"/>
 	<link rel="stylesheet" href="demo-files/demo.css"/>
 	<meta charset="utf-8"/>
@@ -95,24 +95,9 @@
 					</div>
 				
 			</div>	
+
 		</div>
 		<button class="button raised bg-blue-500 color-white" id="search">ค้นหา</button>
-		<div class="grid-list">
-			<div class="tile">
-				<h3>ชื่อ - สกุล</h3>
-				<div class="text-input-container card">
-					
-					<input type="text" class="text-input" id="name_edit"/>
-				</div>
-			</div>	
-			<div class="tile">
-				<h3>รายได้</h3>
-				<div class="text-input-container card">
-					
-					<input type="text" class="text-input" id="cash_edit"/>
-				</div>
-			</div>	
-		</div>
 		<div class="grid-list">
 			<div class="tile">	
 				<h3>รหัสสมาชิก  </h3>
@@ -120,6 +105,23 @@
 					<input  type="text" class="text-input" id="id_edit" disabled/>
 				</div>
 			</div>
+			<div class="tile">
+				<h3>ชื่อ - สกุล</h3>
+				<div class="text-input-container card">
+					
+					<input type="text" class="text-input" id="name_edit"/>
+				</div>
+			</div>	
+			
+		</div>
+		<div class="grid-list">
+			<div class="tile">
+				<h3>รายได้</h3>
+				<div class="text-input-container card">
+					
+					<input type="text" class="text-input" id="cash_edit" disabled/>
+				</div>
+			</div>	
 			<div class="tile">	
 				<h3>เบอร์โทรศัพท์</h3>
 				<div class="text-input-container card">
@@ -159,16 +161,6 @@
 			<div class="tile">	
 				<button class="button raised bg-blue-500 color-white" id="update">แก้ไข</button>
 			</div>
-			<div class="tile">	
-				<div id="topup_row">
-					<button class='button raised bg-blue-500 color-white' id='topup'>Topup</button>
-				</div>
-			</div>
-			<div class="tile">	
-				<div id="untopup_row">
-					<button class='button raised bg-red-500 color-white' id='untopup'>UnTopup</button>
-				</div>
-			</div>
 		</div>
 	</div>
 </div>
@@ -197,7 +189,7 @@
 <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js" async></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script>
-	var url = "http://localhost:8081";
+	var url = "http://128.199.205.59:8080";
 //	http://128.199.205.59:8080
 // http://localhost:8081
 	$(document).ready(function() {
@@ -315,7 +307,7 @@
 		
 		 var member_update = {
 			name: $("#name_edit").val(),
-			cash: $("#cash_edit").val(),
+			
 			id: $("#id_edit").val(),
             bank:$("#bank_edit").val(),
 			bankid:$("#bankid_edit").val(),
@@ -324,7 +316,7 @@
 			adviser:$("#adviser_edit").val()
         }
 		if (confirm('ต้องการแก้ไขข้อมูล ?')) {
-			if($("#id_edit").val()!="" && $("#cash_edit").val()!="" && $("#name_edit").val()!="" && $("#bank_edit").val()!="" && $("#bank_edit").val()!="" && $("#phone_edit").val()!="" && $("#up_editup").val()!="" && $("#adviser_edit").val()!=""){
+			if($("#id_edit").val()!="" && $("#name_edit").val()!="" && $("#bank_edit").val()!="" && $("#bank_edit").val()!="" && $("#phone_edit").val()!="" && $("#up_editup").val()!="" && $("#adviser_edit").val()!=""){
 				$.ajax({
 					url: url+"/find_member/"+$("#id_edit").val()
 				}).then(function(data) {
@@ -358,29 +350,9 @@
 		
 	});
 	
-	$( "#topup" ).click(function() {
-		if (confirm('ต้องการ TopUp สมาชิก?')) {
-			$.ajax({
-				url: url+"/topup_member/"+$("#id_edit").val()
-			}).then(function(data) {
-				alert("TopUp สมาชิกเรียบร้อย");
-				$(':input').val('');
-				$("#topup_row").hide();
-			});
-		}
-	});
+
 	
-	$( "#untopup" ).click(function() {
-		if (confirm('ต้องการ UnTopUp สมาชิก?')) {
-			$.ajax({
-				url: url+"/untopup_member/"+$("#id_edit").val()
-			}).then(function(data) {
-				alert("UnTopUp สมาชิกเรียบร้อย");
-				$(':input').val('');
-				$("#untopup_row").hide();
-			});
-		}
-	});
+
 	
 	
 	$("#search_chart").click(function(){
