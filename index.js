@@ -86,7 +86,7 @@ app.post('/update_member', function (req, res) {
     var json = req.body;
 		db.member.findOne({id: json.id}, function(err, docs) {	
 			if(docs != null){
-				 db.member.update({id: json.id}, {$set: { name:json.name,bank:json.bank,bankid:json.bankid,cash:json.cash,phone:json.phone,up:json.up,adviser:json.adviser}}, function (err, docs) {
+				 db.member.update({id: json.id}, {$set: { name:json.name,bank:json.bank,bankid:json.bankid,phone:json.phone,up:json.up,adviser:json.adviser}}, function (err, docs) {
 					 if(docs != null){
 						res.json({"status":true});	
 						var d = new Date();							
